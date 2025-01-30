@@ -29,8 +29,6 @@ pipeline {
                 dir('Application-Code/backend') {
                     withSonarQubeEnv('SonarQube') {
                         sh ''' 
-                        export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-                        export PATH=$JAVA_HOME/bin:$PATH
                         ${SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectName=Backend-app \
                         -Dsonar.projectKey=Backend-app '''
