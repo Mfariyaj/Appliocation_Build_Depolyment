@@ -6,8 +6,8 @@ pipeline {
     }
     environment  {
         SCANNER_HOME=tool 'sonar-scanner'
-        AWS_ACCOUNT_ID = credentials('ACCOUNT_ID')
-        AWS_ECR_REPO_NAME = credentials('ECR_REPO2')
+        AWS_ACCOUNT_ID = '905418030005'
+        AWS_ECR_REPO_NAME = 'fariyaj-spring-boot
         AWS_DEFAULT_REGION = 'us-east-1'
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/"
     }
@@ -19,13 +19,13 @@ pipeline {
         }
         stage('Checkout from Git') {
             steps {
-                git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                git credentialsId: 'GITHUB', url: 'https://github.com/Mfariyaj/Appliocation_Build_Depolyment.git'
             }
         }
         stage('Sonarqube Analysis') {
             steps {
                 dir('Application-Code/backend') {
-                    withSonarQubeEnv('sonar-server') {
+                    withSonarQubeEnv('sonar_backend_token') {
                         sh ''' $SCANNER_HOME/bin/sonar-scanner \
                         -Dsonar.projectName=three-tier-backend \
                         -Dsonar.projectKey=three-tier-backend '''
@@ -36,7 +36,7 @@ pipeline {
         stage('Quality Check') {
             steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar_backend_token' 
                 }
             }
         }
@@ -87,15 +87,15 @@ pipeline {
         }
         stage('Update Deployment file') {
             environment {
-                GIT_REPO_NAME = "End-to-End-Kubernetes-Three-Tier-DevSecOps-Project"
-                GIT_USER_NAME = "AmanPathak-DevOps"
+                GIT_REPO_NAME = "Appliocation_Build_Depolyment"
+                GIT_USER_NAME = "Mfariyaj"
             }
             steps {
                 dir('Kubernetes-Manifests-file/Backend') {
                     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                         sh '''
-                            git config user.email "aman07pathak@gmail.com"
-                            git config user.name "AmanPathak-DevOps"
+                            git config user.email "fariyajshaikh86@gmail.com"
+                            git config user.name "Mfariyaj"
                             BUILD_NUMBER=${BUILD_NUMBER}
                             echo $BUILD_NUMBER
                             imageTag=$(grep -oP '(?<=backend:)[^ ]+' deployment.yaml)
