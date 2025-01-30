@@ -32,8 +32,8 @@ pipeline {
                         export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
                         export PATH=$JAVA_HOME/bin:$PATH
                         ${SCANNER_HOME}/bin/sonar-scanner \
-                        -Dsonar.projectName=three-tier-backend \
-                        -Dsonar.projectKey=three-tier-backend '''
+                        -Dsonar.projectName=Backend-app \
+                        -Dsonar.projectKey=Backend-app '''
                     }
                 }
             }
