@@ -9,7 +9,7 @@ pipeline {
         AWS_ECR_REPO_NAME = 'backen-app-repo'
         AWS_DEFAULT_REGION = 'us-east-1'
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/"
-        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+        JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64'
         PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
         SCANNER_HOME = "/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner"
     }
@@ -29,6 +29,8 @@ pipeline {
                 dir('Application-Code/backend') {
                     withSonarQubeEnv('SonarQube') {
                         sh ''' 
+                        export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64  // Explicitly set JAVA_HOME to Java 11
+                        export PATH=/usr/lib/jvm/java-11-openjdk-amd64/bin:$PATH  // Set PATH to include Java 11
                         ${SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectName=Backend-app \
                         -Dsonar.projectKey=Backend-app '''
