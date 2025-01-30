@@ -1,9 +1,9 @@
 pipeline {
     agent any
-        environment {
-        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
-        PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
-        SCANNER_HOME = "/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner"
+    environment {
+    JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+    PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+    SCANNER_HOME = "/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner"
     }
     tools {
         jdk 'jdk'
