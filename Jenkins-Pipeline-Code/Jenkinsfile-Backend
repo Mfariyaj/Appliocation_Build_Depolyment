@@ -1,5 +1,10 @@
 pipeline {
-    agent any 
+    agent any
+        environment {
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+        PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+        SCANNER_HOME = "/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner"
+    }
     tools {
         jdk 'jdk'
         nodejs 'nodejs'
@@ -26,7 +31,10 @@ pipeline {
             steps {
                 dir('Application-Code/backend') {
                     withSonarQubeEnv('SonarQube') {
-                        sh ''' $SCANNER_HOME/bin/sonar-scanner \
+                        sh ''' 
+                        export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+                        export PATH=$JAVA_HOME/bin:$PATH
+                        ${SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectName=three-tier-backend \
                         -Dsonar.projectKey=three-tier-backend '''
                     }
