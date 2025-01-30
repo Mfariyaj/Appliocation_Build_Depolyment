@@ -26,7 +26,7 @@ pipeline {
         stage('Sonarqube Analysis') {
             steps {
                 dir('Application-Code/backend') {
-                    withSonarQubeEnv('sonar-scanner') {
+                    withSonarQubeEnv('sonar-server') {
                          sh ''' 
                          $SCANNER_HOME/bin/sonar-scanner \
                         -Dsonar.projectName=Backend-app \
