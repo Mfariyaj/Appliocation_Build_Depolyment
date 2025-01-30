@@ -30,7 +30,7 @@ pipeline {
                          sonar-scanner \
                                 -Dsonar.projectName=Backend-app \
                                 -Dsonar.projectKey=Backend-app 
-                                -Dsonar.sources=. \ '''
+                                 '''
                     }
                 }
             }
