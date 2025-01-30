@@ -31,7 +31,7 @@ pipeline {
                         sh ''' 
                         export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
                         export PATH=/usr/lib/jvm/java-11-openjdk-amd64/bin:$PATH
-                        ${SCANNER_HOME}/bin/sonar-scanner \
+                        /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner/bin/sonar-scanner \
                         -Dsonar.projectName=Backend-app \
                         -Dsonar.projectKey=Backend-app '''
                     }
