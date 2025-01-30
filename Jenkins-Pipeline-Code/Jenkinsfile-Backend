@@ -1,10 +1,5 @@
 pipeline {
     agent any
-    environment {
-    JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
-    PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
-    SCANNER_HOME = "/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner"
-    }
     tools {
         jdk 'jdk'
         nodejs 'nodejs'
@@ -15,6 +10,9 @@ pipeline {
         AWS_ECR_REPO_NAME = 'backen-app-repo'
         AWS_DEFAULT_REGION = 'us-east-1'
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/"
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+        PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+        SCANNER_HOME = "/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner"
     }
     stages {
         stage('Cleaning Workspace') {
