@@ -5,7 +5,6 @@ pipeline {
         nodejs 'nodejs'
     }
     environment  {
-        SCANNER_HOME=tool 'sonar-scanner'
         AWS_ACCOUNT_ID = '905418030005'
         AWS_ECR_REPO_NAME = 'backen-app-repo'
         AWS_DEFAULT_REGION = 'us-east-1'
