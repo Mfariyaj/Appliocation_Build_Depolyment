@@ -1,0 +1,91 @@
++ git config user.email fariyajshaikh86@gmail.com
++ git config user.name Mfariyaj
++ grep -oE backend:[[:space:]]*[0-9]+ deployment.yaml
++ awk -F: {print $2}
++ xargs
++ imageTag=1
++ echo Current image tag: 1
+Current image tag: 1
++ sed -i s|image: .*|image: 905418030005.dkr.ecr.us-east-1.amazonaws.com/backen-app-repo:13| deployment.yaml
++ echo Updated deployment.yaml contents:
+Updated deployment.yaml contents:
++ cat deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: three-tier
+  labels:
+    role: api
+    env: demo
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      role: api
+  template:
+    metadata:
+      labels:
+        role: api
+    spec:
+      imagePullSecrets:
+      - name: ecr-registry-secret
+      containers:
+      - name: api
+        image: 905418030005.dkr.ecr.us-east-1.amazonaws.com/backen-app-repo:13
+        imagePullPolicy: Always
+        env:
+          - name: MONGO_CONN_STR
+            value: mongodb://mongodb-svc:27017/todo?directConnection=true
+          - name: MONGO_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongo-sec
+                key: username
+          - name: MONGO_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongo-sec
+                key: password
+        ports:
+        - containerPort: 3500
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 3500
+          initialDelaySeconds: 2
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3500
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+        startupProbe:
+          httpGet:
+            path: /started
+            port: 3500
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          failureThreshold: 30
++ git diff deployment.yaml
+diff --git a/Kubernetes-Manifests-file/Backend/deployment.yaml b/Kubernetes-Manifests-file/Backend/deployment.yaml
+index 5ced3cb..1550d21 100644
+--- a/Kubernetes-Manifests-file/Backend/deployment.yaml
++++ b/Kubernetes-Manifests-file/Backend/deployment.yaml
+@@ -25,7 +25,7 @@ spec:
+       - name: ecr-registry-secret
+       containers:
+       - name: api
+-        image: 407622020962.dkr.ecr.us-east-1.amazonaws.com/backend:1
++        image: 905418030005.dkr.ecr.us-east-1.amazonaws.com/backen-app-repo:13
+         imagePullPolicy: Always
+         env:
+           - name: MONGO_CONN_STR
++ git add -A
