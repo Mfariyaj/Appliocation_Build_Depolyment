@@ -83,7 +83,7 @@ pipeline {
                         sh '''
                             git config user.email "fariyajshaikh86@gmail.com"
                             git config user.name "Mfariyaj"
-                            imageTag=$(grep -oP '(?<=backend:\s*)[^ ]+' deployment.yaml)
+                            imageTag=$(grep -oE 'backend:[[:space:]]*[0-9]+' deployment.yaml | awk -F':' '{print $2}' | xargs)
                             sed -i "s/${AWS_ECR_REPO_NAME}:${imageTag}/${AWS_ECR_REPO_NAME}:${BUILD_NUMBER}/" deployment.yaml
                             git add deployment.yaml
                             git commit -m "Update deployment Image to version ${BUILD_NUMBER}"
